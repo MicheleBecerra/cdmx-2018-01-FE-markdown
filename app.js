@@ -22,11 +22,14 @@ readMarkDown(callBack = (data) => {
     let iteraData = data[i]
     dataIterada += iteraData
   }
-  // console.log('1.2 = ' + dataIterada)
+  //console.log('1.2 = ' + dataIterada)
 
   const urlFinder = () => {
     findUrl = dataIterada.match(patron)
-    console.log(findUrl)
+    // console.log(findUrl)
+    urlArray.push(findUrl)
+    console.log(urlArray)
+    
   }
 
   urlFinder()
