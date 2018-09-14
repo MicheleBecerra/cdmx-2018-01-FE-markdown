@@ -21,7 +21,7 @@ function readMarkDown (filePath) {
       resolve(data)
     })
   })
-  
+
 }
 function urlFinder (url, data) {
 
@@ -50,7 +50,8 @@ function urlFinder (url, data) {
 }
 
 readMarkDown('./Readme.md')
-  .then(data => urlFinder('./cantidad.txt', findName, findUrl))
+  .then(data => urlFinder('./cantidad.txt', data))
+  .then(mdDocument => urlFinder('./cantidad.txt', findName, findUrl))
   .catch(err => console.log('Hubo un error' + err))
 
 // const readMarkDown = (callBack) => {
