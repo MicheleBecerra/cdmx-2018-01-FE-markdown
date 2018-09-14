@@ -27,19 +27,19 @@ function urlFinder (url, data) {
 
   return new Promise(function (resolve, reject) {
     fs.writeFile(url, data, function (err) {
-      console.log(data)
+      // console.log(data)
       if (err) {
         return reject(err)
       } else {
         const mdDocument = data
-        //console.log(mdDocument)
-        console.log(data)
+        // console.log(mdDocument)
+        // console.log(data)
          findUrl = mdDocument.match(patron)
          findName = mdDocument.match(urlName)
         
 
-        // console.log(findUrl)
-        // console.log(findName)
+         console.log(findUrl)
+         console.log(findName)
       }
 
       // console.log(findUrl)
@@ -51,7 +51,7 @@ function urlFinder (url, data) {
 
 readMarkDown('./Readme.md')
   .then(data => urlFinder('./cantidad.txt', data))
-  .then(mdDocument => urlFinder('./cantidad.txt', findName, findUrl))
+  .then(data => urlFinder('./cantidad.txt', findName, findUrl))
   .catch(err => console.log('Hubo un error' + err))
 
 // const readMarkDown = (callBack) => {
