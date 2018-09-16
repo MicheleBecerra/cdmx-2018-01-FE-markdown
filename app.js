@@ -1,15 +1,12 @@
 const fs = require('fs')
 const fetch = require('node-fetch')
-const path = require('path')
+//  const path = require('path')
 const patron = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-/]))/gim
 const urlName = /\[([^\]]*)\]/gim
-const urlArray = []
-let dataIterada = ''
+// const urlArray = []
 let findUrl = ' '
-// const urlFinder = ''
-// const readMarkDown = ''
 let findName = ''
-let data = '' 
+let mdDocument = ''
 
 function readMarkDown (filePath) {
   return new Promise(function (resolve, reject) {
@@ -21,38 +18,54 @@ function readMarkDown (filePath) {
       resolve(data)
     })
   })
-
 }
 function urlFinder (url, data) {
-
   return new Promise(function (resolve, reject) {
     fs.writeFile(url, data, function (err) {
       // console.log(data)
       if (err) {
         return reject(err)
       } else {
-        const mdDocument = data
+        mdDocument = data
         // console.log(mdDocument)
-        // console.log(data)
-         findUrl = mdDocument.match(patron)
-         findName = mdDocument.match(urlName)
-        
 
-         console.log(findUrl)
-         console.log(findName)
+        findUrl = mdDocument.match(patron)
+        findName = mdDocument.match(urlName)
+        // console.log(findUrl)
+        // console.log(findName)
+        if (findUrl) {
+          for (let i = 0; i < findUrl.length; i++) {
+            let request = findUrl[i]
+            fetch(request).then((response) => {
+              // console.log(response)
+              let status = response.status
+              if (status === 200) {
+                // console.log('ok')
+              } else {
+                // console.log('Failed')
+              }
+              const objectUrl = {
+                Name: findName[i],
+                Url: findUrl[i],
+                Status: status,
+                statusText: response.statusText
+              }
+              console.log(objectUrl)
+            })
+          }
+        }
       }
-
-      // console.log(findUrl)
-      // console.log(findName)
-      resolve(url)
+      resolve(urlFinder)
     })
   })
 }
 
 readMarkDown('./Readme.md')
-  .then(data => urlFinder('./cantidad.txt', data))
-  .then(data => urlFinder('./cantidad.txt', findName, findUrl))
-  .catch(err => console.log('Hubo un error' + err))
+  .then(data => urlFinder('./cantidad.txt', data, urlFinder, readMarkDown))
+  // .then(data => {
+  //   // console.log(findUrl)
+  // })
+  .catch(err => { console.log('Hubo un error' + err) })
 
 // const readMarkDown = (callBack) => {
 //   // const myFile = absPath('./Readme.md')
@@ -65,6 +78,7 @@ readMarkDown('./Readme.md')
 //       console.log(data)
 //     }
 //   })
+
 // }
 // markDownReader(
 //   callBack = (data) => {
