@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs')
 const fetch = require('node-fetch')
 //  const path = require('path')
@@ -19,6 +21,7 @@ function readMarkDown (filePath) {
     })
   })
 }
+
 function urlFinder (url, data) {
   return new Promise(function (resolve, reject) {
     fs.writeFile(url, data, function (err) {
